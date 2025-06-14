@@ -173,18 +173,10 @@ class Assistant:
             elif isst("open"):
                 async def wopen_task(whattoopen: str):
                     print("opened_for", whattoopen)
-                    if whattoopen:  # Only proceed if there's something to open
-                        resp = await asyncio.to_thread(wopen, whattoopen)
-                        response.wopens.append(resp)
-                    else:
-                        print("No application specified to open")
+                    resp = await asyncio.to_thread(wopen, whattoopen)
+                    response.wopens.append(resp)
 
-                # Extract the app name after "open " and handle multiple apps
-                app_names = fun[5:].strip().split(',')
-                for app_name in app_names:
-                    app_name = app_name.strip()
-                    if app_name:  # Only create task if app name is not empty
-                        tasks.append(wopen_task(app_name))
+                tasks.append(wopen_task(fun[5:]))
             elif isst("play"):
                 async def play_task(whattoplay: str):
                     resp = await asyncio.to_thread(playonyt, whattoplay)

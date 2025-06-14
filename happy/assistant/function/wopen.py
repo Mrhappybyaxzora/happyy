@@ -31,14 +31,9 @@ def wopen(app):
 
     html = search_google(app)
     if html:
-        links = extract_links(html)
-        if links:
-            return links[0]
-        else:
-            l.error(f"No links found for query: {app}")
-            return f"https://www.google.com/search?q={app}"
+        link = extract_links(html)[0]
+        return link
     else:
-        return f"https://www.google.com/search?q={app}"
-
+        return "/sorry"
 if __name__ == "__main__":
     print(wopen("google"))

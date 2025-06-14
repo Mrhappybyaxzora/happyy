@@ -12,7 +12,7 @@ def Content(Topic) -> str:
             messages = []
             messages.append({"role": "user", "content": f"{prompt}"})
             completion = client.chat.completions.create(
-            model = "llama-3.3-70b-versatile",
+            model = "mixtral-8x7b-32768",
             messages = SystemChatBot + messages,
             max_tokens=2048,
             temperature=0.7,

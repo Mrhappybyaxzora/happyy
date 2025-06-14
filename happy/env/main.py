@@ -15,7 +15,10 @@ Keys = {
     "HuggingFace": None,
     "Tunestudio": None,
     "MongoUri": None,
-    "GEMINI_API_KEY": None
+    "PLAY_HT_USER_ID": None,
+    "PLAY_HT_API_KEY": None,
+    "GEMINI_API_KEY": None,
+    "ELEVENLABS_API_KEY": None
 }
 
 for key, value in Keys.items():
