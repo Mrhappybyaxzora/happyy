@@ -3,14 +3,9 @@ sys.path.append(os.getcwd())
 
 from dataclasses import dataclass, asdict, field
 from pymongo import MongoClient
-from pymongo.errors import ConnectionFailure, ServerSelectionTimeoutError
 from datetime import datetime
 from typing import Union
 from happy.env import Keys
-from happy.logging import Logger
-import time
-
-logger = Logger(__file__)
 
 # Define a data class
 @dataclass
@@ -67,42 +62,11 @@ class History:
 
 
 class MongoDB:
-    def __init__(self, max_retries=3, retry_delay=2):
-        self.max_retries = max_retries
-        self.retry_delay = retry_delay
-        self._connect()
-
-    def _connect(self):
-        retries = 0
-        while retries < self.max_retries:
-            try:
-                logger.info(f"Attempting to connect to MongoDB (attempt {retries + 1}/{self.max_retries})")
-                mongo_uri = Keys.get("MongoUri")
-                if not mongo_uri:
-                    raise ValueError("MongoUri environment variable is not set")
-                
-                logger.info(f"Using MongoDB URI: {mongo_uri[:20]}...")  # Log only first 20 chars for security
-                
-                self.client = MongoClient(
-                    mongo_uri,
-                    serverSelectionTimeoutMS=5000,
-                    connectTimeoutMS=5000,
-                    socketTimeoutMS=5000
-                )
-                # Verify the connection
-                self.client.admin.command('ping')
-                self.db = self.client["Happy"]
-                self.collection = self.db["Users"]
-                self.messagescollection = self.db["Messages"]
-                logger.info("Successfully connected to MongoDB")
-                return
-            except (ConnectionFailure, ServerSelectionTimeoutError) as e:
-                retries += 1
-                if retries == self.max_retries:
-                    logger.error(f"Failed to connect to MongoDB after {self.max_retries} attempts: {str(e)}")
-                    raise ConnectionError(f"Could not connect to MongoDB: {str(e)}")
-                logger.warning(f"Connection attempt {retries} failed, retrying in {self.retry_delay} seconds...")
-                time.sleep(self.retry_delay)
+    def __init__(self):
+        self.client = MongoClient(Keys.get("MongoUri"))
+        self.db = self.client["Happy"]
+        self.collection = self.db["Users"]
+        self.messagescollection = self.db["Messages"]
     
     def getUsers(
         self, 
