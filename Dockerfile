@@ -30,6 +30,18 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application code to the working directory
 COPY --chown=appuser:appuser . .
 
+# Create .env file from environment variables
+RUN echo "MongoUri=${MongoUri}" > .env && \
+    echo "Cohere=${Cohere}" >> .env && \
+    echo "HuggingFace=${HuggingFace}" >> .env && \
+    echo "OpenAI=${OpenAI}" >> .env && \
+    echo "Groq=${Groq}" >> .env && \
+    echo "GEMINI_API_KEY=${GEMINI_API_KEY}" >> .env && \
+    echo "PLAY_HT_USER_ID=${PLAY_HT_USER_ID}" >> .env && \
+    echo "PLAY_HT_API_KEY=${PLAY_HT_API_KEY}" >> .env && \
+    echo "ELEVENLABS_API_KEY=${ELEVENLABS_API_KEY}" >> .env && \
+    chown appuser:appuser .env
+
 # Switch to non-root user
 USER appuser
 

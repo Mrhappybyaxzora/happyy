@@ -3,7 +3,7 @@ import dotenv.variables
 from happy.logging import Logger
 from os import getenv, environ
 
-ENVPATH = "env"
+ENVPATH = ".env"
 fun = dotenv.get_key if ENVPATH else getenv
 
 logger = Logger(__file__)
