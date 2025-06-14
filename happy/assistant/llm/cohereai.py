@@ -1,4 +1,5 @@
 import cohere 
+import os
 
 class LLM:
     USER = "User"
@@ -42,7 +43,8 @@ class LLM:
         >>> llm = LLM()
         >>> llm.add_message("User", "Hello, how are you?")
         """
-        assert api_key, "Cohere API key is required"
+        api_key = os.getenv("COHERE_API_KEY")
+        assert api_key, "COHERE_API_KEY environment variable is required"
         self.api_key = api_key
         self.co = cohere.Client(api_key)
         self.messages = messages
@@ -179,7 +181,7 @@ class LLM:
 
 if __name__ == "__main__":
     from rich import print
-    llm = LLM(api_key="FIpCfF2pfLI8sp4pBnHkOfXjmas71bOpZTijLB6D", system_prompt="ed", max_tokens=40)
+    llm = LLM()
     llm.add_message("User", "Hello, how are you?")
     llm.add_message("Chatbot", "I'm doing well, thank you!")
     print(llm.run("write python code to make snake game"))

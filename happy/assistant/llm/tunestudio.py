@@ -2,6 +2,7 @@ from dotenv import get_key
 from rich import print
 import requests
 import base64
+import os
 
 
 class LLM:
@@ -16,7 +17,6 @@ class LLM:
             system_prompt: str = "",
             max_tokens: int = 2048,
             verbose: bool = False,
-            api_key: str | None = None
     ) -> None:
         """
         Initializes the LLM with the given parameters.
@@ -35,17 +35,15 @@ class LLM:
             The maximum number of tokens to use for the LLM.
         verbose: bool
             Whether to print the response from the LLM.
-        api_key: str | None
-            The API key to use for the LLM.
         
         example:
         >>> llm = LLM()
         >>> llm.add_message("user", "Hello, how are you?")
         >>> llm.add_message("assistant", "I'm doing well, thank you!")
         >>> llm.run("Hello, how are you?")
-        >>> "I'm doing well, thank you!"
         """
-        assert api_key, "Tune Studio API key is required"
+        api_key = os.getenv("TUNESTUDIO_API_KEY")
+        assert api_key, "TUNESTUDIO_API_KEY environment variable is required"
         self.api_key = api_key
         self.session =  requests.session()
         self.messages = messages
@@ -242,7 +240,7 @@ def FileToBase64(file_path:str):
 
 
 if __name__ == "__main__":
-    llm = LLM(verbose=True, api_key="sk-tune-IHkll6DdaALpNJTjEP8O3ndYwVh1AkA7zoB")
+    llm = LLM()
     llm.add_message("user", "Hello, how are you?")
     llm.add_message("assistant", "I'm doing well, thank you!")
-    llm.run("Hello, how are you?")
+    print(llm.run("write python code to make a snake game"))
