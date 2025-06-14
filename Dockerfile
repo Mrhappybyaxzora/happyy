@@ -10,8 +10,14 @@ COPY requirements.txt .
 # Install the dependencies listed in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy the env file first
+COPY env .
+
 # Copy the rest of the application code to the working directory
 COPY . .
+
+# Make sure the env file is readable
+RUN chmod 644 env
 
 # Specify the command to run your FastAPI app with Uvicorn
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7860"]
