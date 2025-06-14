@@ -1,0 +1,29 @@
+.user-text {
+    font-size: 14px;
+    line-height: 32px;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    word-wrap: break-all; 
+    overflow-wrap: break-word;
+}
+.bot-text {
+    font-size: 14px;
+    line-height: 32px;
+    color: #0B68F3;
+    font-family: 'Poppins', sans-serif;
+    word-wrap: break-all; 
+    overflow-wrap: break-word;
+}
+.alpha {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: auto;
+    text-align: center;
+}

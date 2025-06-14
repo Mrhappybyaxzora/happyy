@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/pcui.css">
+    <link rel="stylesheet" href="../static/css/miceui.css">
+</head>
+
+<body class="bg-black text-white min-h-screen flex flex-col overflow-hidden">
+    <!-- Header or central section -->
+    <div class="flex items-center justify-center mt-[30px]">
+        <div class="h-[70px] w-[400px] rounded-3xl border-[2px] border-[rgba(76,76,76)] bg-[rgba(31,31,31)]">
+            <div class="flex items-center justify-between h-full mx-10">
+                <div class="flex">
+                    <img class="mx-1 " src="../static/svg/home.svg" alt="">
+                    <p class="font-semibold text-[18px] text-[#A1A1A1]">Home</p>
+                </div>
+                <div class="flex">
+                    <img class="mx-1 " src="../static/svg/settings.svg" alt="">
+                    <p class="font-semibold text-[18px] text-[#A1A1A1]">Settings</p>
+                </div>
+                <div class="flex">
+                    <img class="mx-1 " src="../static/svg/vd.svg" alt="">
+                    <p class="font-semibold text-[18px] text-[#A1A1A1]">Axzora</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Main layout with left and right panels -->
+    <div id="main-layout" class="flex-grow flex h-full mt-4">
+        <!-- Left Panel -->
+        <div class="w-[60%] pt-[3%] ">
+            <div id="chat-content" class="flex-col w-3/4 h-full mx-auto border border-dashed border-[#0000] overflow-y-scroll">
+                <p class=" text-[20px]"><b class="text-[#68B2D9] text-[20px]">Happy</b>: Welcome back sir, How may i assist you today?</p>
+            </div>
+        </div>
+
+        <!-- Right Panel -->
+        <div id="right-panel" class="w-[40%] p-5 flex flex-col">
+            <div class="flex-grow video-container mb-10">
+                <!-- Video will be added dynamically via JS -->
+
+            </div>
+            <div class="h-[30%] flex justify-center">
+                <h3>Listening ...</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Input and mic button at the very bottom -->
+    <div class="flex justify-between mb-5">
+        <div class="w-[60%] flex justify-center">
+            <div class="flex justify-center items-center w-9/12">
+                <div class="relative w-full max-w-[10000px]">
+                    <input
+                        class="w-full h-[60px] bg-black border-2 border-blue-500 rounded-xl text-[20px] px-6 pr-12 text-white placeholder-gray-400 focus:outline-none focus:border-blue-600"
+                        placeholder="Ask me anything.." type="text" id="user-input" autocomplete="off" >
+                    <button id="sendBtn" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-blue-500 cursor-pointer">
+                        <svg  xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="w-[40%] flex justify-center">
+            <div class="mic-btn-container">
+                <button id="micBtn" class="mic-btn flex items-center justify-center rounded-full">
+                    <img id="micIcon" src="../static/svg/mic.svg" alt="">
+                    <div id="micLoader" class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-black" style="display: none;"></div>
+                </button>
+                <div class="circle" data-index="0"></div>
+                <div class="circle" data-index="0.5"></div>
+                <div class="circle" data-index="1"></div>
+                <div class="circle" data-index="1.5"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        USERNAME = "{{ FullName }}";
+    </script>
+    <script src="../static/js/pc/adjustgif.js"></script>
+    <script src="../static/js/pc/miceui.js"></script>
+    <script src="../static/js/pc/pcmessages.js"></script>
+    <script src="../static/js/pc/cam.js"></script>
+    <script src="../static/js/pc/pcmain.js"></script>
+</body>
+
+</html>
+
+
+
+<script>
+    // Check if browser supports speech recognition
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const recognition = new SpeechRecognition();
+const listeningIndicator = document.querySelector('#right-panel h3');
+if (SpeechRecognition) {
+    console.log("Speech Recognition is supported in this browser.");
+
+    // Create a new instance of speech recognition
+    
+
+    // Configure the recognition settings
+    recognition.continuous = false; // Recognize only one phrase at a time
+    recognition.interimResults = false; // Don't show interim results
+    recognition.lang = 'en-US'; // Set the language for recognition
+
+    // Grab elements
+    const micBtn = document.getElementById('micBtn');
+    const micIcon = document.getElementById('micIcon');
+    const userInput = document.getElementById('user-input');
+    
+
+    // Variable to toggle recognition
+    let isListening = false;
+
+    // Function to start/stop recognition
+    micBtn.addEventListener('click', () => {
+        if (!isListening) {
+            if (micIcon.style.display === 'none') {
+                return;
+            }
+            recognition.start();
+            listeningIndicator.textContent = "Listening ...";
+        } else {
+            recognition.stop();
+            listeningIndicator.textContent = "Stopped listening";
+        }
+        isListening = !isListening;
+    });
+
+    // Handle recognition results
+    recognition.addEventListener('result', (event) => {
+        const transcript = event.results[0][0].transcript;
+        userInput.value = transcript; // Insert recognized text into input field
+        listeningIndicator.textContent = "Recognition finished";
+        console.log("Recognized text:", transcript);
+        QuerySendMain(transcript);
+    });
+
+    // Handle recognition errors
+    recognition.addEventListener('error', (event) => {
+        console.error("Speech recognition error:", event.error);
+    });
+
+    // Handle recognition end
+    recognition.addEventListener('end', () => {
+        if (isListening && micIcon.style.display !== 'none') {
+            listeningIndicator.textContent = "Listening ...";
+            recognition.start(); // Restart recognition if still listening
+        }
+    });
+
+} else {
+    console.error("Speech Recognition is not supported in this browser.");
+    const listeningIndicator = document.querySelector('#right-panel h3');
+    listeningIndicator.textContent = "Speech recognition not supported in this browser.";
+}
+
+</script>
+
+
+<script>
+    // Function to get the current day and time in a readable format
+    function updateDateTime() {
+        if (micBtn.classList.contains('active')) {
+            return
+        }
+        const dateTimeElement = document.querySelector('#right-panel h3');
+        const currentDate = new Date();
+        
+        // Format the time
+        const timeOptions = {
+            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
+        };
+        const formattedTime = currentDate.toLocaleTimeString('en-US', timeOptions);
+        
+        // Get the day of the week
+        const dayOptions = { weekday: 'long' };
+        const dayName = currentDate.toLocaleDateString('en-US', dayOptions);
+        
+        // Combine day and time
+        dateTimeElement.textContent = `${dayName}, ${formattedTime}`;
+    }
+
+    // Call the function when the page loads
+    window.onload = updateDateTime;
+
+    // Optional: Keep updating the time every second
+    setInterval(updateDateTime, 1000);
+</script>
+
+<style>
+    #chat-content {
+        word-wrap: break-word; /* Allows long words to break and wrap */
+        overflow-wrap: break-word; /* Similar to word-wrap, for better compatibility */
+    }
+</style>

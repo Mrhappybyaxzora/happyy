@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tailwind CSS Template</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/mobile/main.css">
+    <link rel="stylesheet" href="../static/css/miceui.css">
+</head>
+<body class="bg-black">
+    <div class="relative">
+        <img class="absolute w-full max-w-[530px] left-1/2 transform -translate-x-1/2" src="../static/svg/upwiggle.svg" alt="">
+    </div>
+
+    <div class="flex items-center justify-between pt-[60px] max-w-[530px] mx-auto" >
+        <div class="flex items-center justify-between w-full">
+            <button style="margin-left: 26px;">
+                <img src="../static/svg/home.svg" alt="">
+            </button>
+            <div id="state" class="flex items-center">
+                <div class="text-[22px] font-semibold w-[7px] h-[7px] rounded-full bg-[#77F017] mr-[14px]"></div>
+                <span id="state-text" class="text-white text-[20px] font-semibold px-2 mr-[55px]" style="font-family: 'Poppins', sans-serif;">Hi!</span>
+            </div>
+            <span></span>
+        </div>
+    </div>
+
+    <div class="alpha" style="z-index: -1;">
+        <div class="flex items-center justify-between max-w-[530px] max-h-[412px] mx-auto">
+            <video style="width: 80%;" class="mx-auto" src="../static/video/video.mp4" autoplay muted loop preload="auto"></video>
+        </div>
+
+        <div class="max-w-[530px] mx-auto min-h-[128px]" style="width: 90%;">
+            <div id="chat-container" style="margin-left: 9%; margin-right: 9%; max-height: 128px; overflow-y: auto;">
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed bottom-4 left-1/2 transform -translate-x-1/2">
+        <div class="mic-btn-container">
+
+            <button id="micBtn" class="mic-btn flex items-center justify-center rounded-full">
+                <img id="micIcon" src="../static/svg/mic.svg" alt="">
+                <div id="micLoader" class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-black" style="display: none;"></div>
+            </button>
+            <div class="circle" data-index="0"></div>
+            <div class="circle" data-index="0.5"></div>
+            <div class="circle" data-index="1"></div>
+            <div class="circle" data-index="1.5"></div>
+        </div>
+    </div>
+
+    <script src="../static/js/mobile/micanimation.js"></script>
+    <script src="../static/js/mobile/messages.js"></script>
+    <script src="../static/js/mobile/cam.js"></script>
+    <script src="../static/js/mobile/main.js"></script>
+    <script>
+        USERNAME = "{{ FullName }}";
+        HISTORY = {{ history|tojson }};
+
+        for (const message of HISTORY) {
+            addMessage(message.content, message.role === "assistant");
+        }
+    </script>
+</body>
+</html>
+
+
+<script>
+    // Check if browser supports speech recognition
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    const listeningIndicator = document.querySelector('#state-text');
+    
+    if (SpeechRecognition) {
+        console.log("Speech Recognition is supported in this browser.");
+        // Configure the recognition settings
+        recognition.continuous = false; // Recognize only one phrase at a time
+        recognition.interimResults = false; // Don't show interim results
+        recognition.lang = 'en-US'; // Set the language for recognition
+
+        // Grab elements
+        const micBtn = document.getElementById('micBtn');
+        const micIcon = document.getElementById('micIcon');
+        
+
+        // Variable to toggle recognition
+        let isListening = false;
+
+        // Function to start/stop recognition
+        micBtn.addEventListener('click', () => {
+            if (!isListening) {
+                if (micIcon.style.display === 'none') {
+                    return;
+                }
+                recognition.start();
+                listeningIndicator.textContent = "Listening ...";
+            } else {
+                recognition.stop();
+                listeningIndicator.textContent = "Stopped listening";
+            }
+            isListening = !isListening;
+        });
+
+        // Handle recognition results
+        recognition.addEventListener('result', (event) => {
+            const transcript = event.results[0][0].transcript;
+            listeningIndicator.textContent = "Recognition finished";
+            console.log("Recognized text:", transcript);
+            QuerySendMain(transcript);
+        });
+
+        // Handle recognition errors
+        recognition.addEventListener('error', (event) => {
+            console.error("Speech recognition error:", event.error);
+        });
+
+        // Handle recognition end
+        recognition.addEventListener('end', () => {
+            if (isListening && micIcon.style.display !== 'none') {
+                listeningIndicator.textContent = "Listening ...";
+                recognition.start(); // Restart recognition if still listening
+            }
+        });
+
+    } else {
+        console.error("Speech Recognition is not supported in this browser.");
+        const listeningIndicator = document.querySelector('#state-text');
+        listeningIndicator.textContent = "Speech recognition not supported in this browser.";
+    }
+
+</script>
+
+<style>
+    #chat-container {
+        word-wrap: break-word; /* Allows long words to break and wrap */
+        overflow-wrap: break-word; /* Similar to word-wrap, for better compatibility */
+    }
+    video::-webkit-media-controls {
+        display: none !important;
+    }
+</style>

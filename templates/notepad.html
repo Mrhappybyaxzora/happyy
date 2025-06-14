@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Editor</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="flex flex-col h-screen bg-gray-900 text-gray-100">
+
+<header class="sticky top-0 z-10 px-6 py-4 bg-gray-800 border-b border-gray-700 shadow-md">
+    <h1 class="text-2xl font-bold">Text Editor</h1>
+</header>
+
+<div class="flex-1 p-6 overflow-auto">
+    <textarea
+        id="editor"
+        class="flex min-h-[80px] rounded-md border border-gray-700 px-3 py-2 text-sm bg-gray-800 text-gray-100 placeholder-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 w-full h-full resize-none leading-relaxed"
+        placeholder="Start typing..."
+    >{{ content }}</textarea>
+</div>
+
+<div class="sticky bottom-0 z-10 px-6 py-4 bg-gray-800 border-t border-gray-700 flex justify-between gap-4 shadow-md">
+    <button
+        onclick="downloadText()"
+        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 border border-gray-700 bg-gray-800 hover:bg-gray-700 h-12 px-6 py-3 flex-1"
+    >
+        Download
+    </button>
+    <button
+        onclick="copyText()"
+        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 bg-blue-600 text-gray-100 hover:bg-blue-500 h-12 px-6 py-3 flex-1"
+    >
+        Copy to Clipboard
+    </button>
+</div>
+
+<script>
+    function downloadText() {
+        const text = document.getElementById('editor').value;
+        const blob = new Blob([text], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = `/download?content=${encodeURIComponent(text)}`;
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+
+    function copyText() {
+        const text = document.getElementById('editor').value;
+        navigator.clipboard.writeText(text).then(() => {
+            alert('Text copied to clipboard');
+        }).catch(() => {
+            alert('Failed to copy text');
+        });
+    }
+</script>
+
+</body>
+</html>

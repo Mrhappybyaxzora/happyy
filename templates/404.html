@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Not Found - Mr. Happy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-900 min-h-screen flex flex-col items-center justify-center text-white">
+    <div class="text-center">
+        <div class="mb-8">
+            <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="white mx-auto">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M16 16s-1.5-2-4-2-4 2-4 2"/>
+                <line x1="9" y1="9" x2="9.01" y2="9"/>
+                <line x1="15" y1="9" x2="15.01" y2="9"/>
+            </svg>
+        </div>
+        <h1 class="text-6xl font-bold mb-4">404</h1>
+        <h2 class="text-3xl font-semibold mb-6">Oops! Page Not Found</h2>
+        <p class="text-xl mb-8">The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.</p>
+        <a href="/" class="bg-primary hover:bg-primary-dark text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out">
+            Go Back Home
+        </a>
+    </div>
+
+    <footer class="mt-16 text-center">
+        <p class="text-sm text-gray-400">&copy; 2024 Mr. Happy. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Add a simple animation to the SVG
+        const svg = document.querySelector('svg');
+        let rotation = 0;
+        setInterval(() => {
+            rotation += 1;
+            svg.style.transform = `rotate(${rotation}deg)`;
+        }, 50);
+    </script>
+</body>
+</html>

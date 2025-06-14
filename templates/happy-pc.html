@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../static/css/pcui.css" />
+    <link rel="stylesheet" href="../static/css/miceui.css" />
+  </head>
+
+  <body class="bg-black text-white min-h-screen flex flex-col overflow-hidden">
+    <!-- Header or central section -->
+    <div class="flex items-center justify-center mt-[30px]">
+      <div
+        class="h-[70px] w-[400px] rounded-3xl border-[2px] border-[rgba(76,76,76)] bg-[rgba(31,31,31)]"
+      >
+        <div class="flex items-center justify-between h-full mx-10">
+          <div class="flex cursor-pointer" id="home-icon">
+            <img class="mx-1" src="../static/svg/home.svg" alt="" />
+            <p class="font-semibold text-[18px] text-[#A1A1A1]">Home</p>
+          </div>
+          <div class="flex cursor-pointer" id="settings-icon">
+            <img class="mx-1" src="../static/svg/settings.svg" alt="" />
+            <p class="font-semibold text-[18px] text-[#A1A1A1]">Settings</p>
+          </div>
+          <div class="flex cursor-pointer" id="Axzora-icon">
+            <img class="mx-1" src="../static/svg/vd.svg" alt="" />
+            <p class="font-semibold text-[18px] text-[#A1A1A1]">Axzora</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="home">
+      <!-- Main layout with left and right panels -->
+      <div id="main-layout" class="flex-grow flex h-full mt-4">
+        <!-- Left Panel -->
+        <div class="w-[60%] pt-[3%]">
+          <div
+            id="chat-content"
+            class="flex-col w-3/4 h-full mx-auto border border-dashed border-[#0000] overflow-y-scroll"
+          >
+            <p class="text-[20px]">
+              <b class="text-[#68B2D9] text-[20px]">Happy</b>: Welcome back sir,
+              How may i assist you today?
+            </p>
+          </div>
+        </div>
+
+        <!-- Right Panel -->
+        <div id="right-panel" class="w-[40%] p-5 flex flex-col">
+          <div class="flex-grow video-container mb-10">
+            <!-- Video will be added dynamically via JS -->
+          </div>
+          <div class="h-[30%] flex justify-center">
+            <h3>Listening ...</h3>
+          </div>
+        </div>
+      </div>
+
+      <div
+        id="myModal"
+        class="hidden fixed top-0 left-0 w-full h-full bg-black/70 flex items-center justify-center"
+      >
+        <!-- Add file upload section above chat -->
+        <div id="file-upload" class="w-3/4 mx-auto mb-4 bg-black">
+          <div class="p-4 border-2 border-dashed border-[#68B2D9] rounded-xl">
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="text-[#A1A1A1] font-semibold">Upload Files</h3>
+              <div class="flex space-x-2">
+                <span id="totalSize" class="text-sm text-[#A1A1A1]"
+                  >0 MB / 25 MB</span
+                >
+                <button
+                  id="clearFiles"
+                  class="text-sm text-red-500 hover:text-red-400"
+                >
+                  Clear All
+                </button>
+                <button onclick="closeUploadModal()" class="text-sm">
+                  Close
+                </button>
+              </div>
+            </div>
+            <div class="relative">
+              <input
+                type="file"
+                id="fileInput"
+                multiple
+                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                accept=".txt,.pdf,.doc,.docx,.mp3,.wav,.mp4,.avi,.mov"
+              />
+              <div
+                class="flex items-center justify-center p-4 border-2 border-dashed border-[#4C4C4C] rounded-lg hover:border-[#68B2D9] transition-colors"
+              >
+                <div class="text-center">
+                  <p class="text-[#A1A1A1]">
+                    Drag files here or click to upload
+                  </p>
+                  <p class="text-sm text-[#666] mt-1">
+                    Supports: Text, PDF, Audio, Video files
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              id="fileList"
+              class="mt-3 space-y-2 max-h-32 overflow-y-auto"
+            ></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Input and mic button at the very bottom -->
+      <div class="flex justify-between mb-5">
+        <div class="w-[60%] flex justify-center">
+          <div class="flex justify-center items-center w-9/12">
+            <div class="relative w-full max-w-[10000px]">
+              <button
+                onclick="showUploadModal()"
+                class="absolute left-4 top-1/2 transform -translate-y-1/2 text-blue-500 cursor-pointer"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="size-6"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"
+                  />
+                </svg>
+              </button>
+              <input
+                class="w-full h-[60px] bg-black border-2 border-blue-500 rounded-xl text-[20px] px-12 pr-12 text-white placeholder-gray-400 focus:outline-none focus:border-blue-600"
+                placeholder="Ask me anything.."
+                type="text"
+                id="user-input"
+                autocomplete="off"
+              />
+              <button
+                id="sendBtn"
+                class="absolute right-4 top-1/2 transform -translate-y-1/2 text-blue-500 cursor-pointer"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="w-[40%] flex justify-center">
+          <div class="mic-btn-container">
+            <button
+              id="micBtn"
+              class="mic-btn flex items-center justify-center rounded-full"
+            >
+              <img id="micIcon" src="../static/svg/mic.svg" alt="" />
+              <div
+                id="micLoader"
+                class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-black"
+                style="display: none"
+              ></div>
+            </button>
+            <div class="circle" data-index="0"></div>
+            <div class="circle" data-index="0.5"></div>
+            <div class="circle" data-index="1"></div>
+            <div class="circle" data-index="1.5"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="settings"
+      class="hidden h-[calc(100vh-130px)] flex items-center justify-center"
+    >
+      <div
+        class="bg-[rgba(31,31,31, 0)] text-white p-12 rounded-2xl shadow-2xl max-w-4xl mx-auto border-2 border-[rgba(76,76,76)]"
+      >
+        <form id="settings-form" class="space-y-1">
+          <!-- Personal Information Section -->
+          <div class="mb-8">
+            <h3 class="text-xl font-semibold mb-6 text-[#A1A1A1]">
+              Personal Information
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div class="flex flex-col">
+                <label class="text-sm font-medium mb-2 text-[#A1A1A1]"
+                  >Name</label
+                >
+                <input
+                  type="text"
+                  name="FullName"
+                  placeholder="Enter your name"
+                  class="p-3 bg-[rgba(31,31,31)] border-2 border-[rgba(76,76,76)] rounded-xl focus:outline-none focus:border-[#68B2D9] transition-colors duration-200"
+                />
+              </div>
+              <div class="flex flex-col">
+                <label class="text-sm font-medium mb-2 text-[#A1A1A1]"
+                  >Email</label
+                >
+                <input
+                  type="email"
+                  name="Email"
+                  placeholder="Enter your email"
+                  class="p-3 bg-[rgba(31,31,31)] border-2 border-[rgba(76,76,76)] rounded-xl focus:outline-none focus:border-[#68B2D9] transition-colors duration-200"
+                />
+              </div>
+              <div class="flex flex-col">
+                <label class="text-sm font-medium mb-2 text-[#A1A1A1]"
+                  >Input Language</label
+                >
+                <select
+                  name="InputLanguage"
+                  class="p-3 bg-[rgba(31,31,31)] border-2 border-[rgba(76,76,76)] rounded-xl focus:outline-none focus:border-[#68B2D9] transition-colors duration-200"
+                >
+                  <option value="en-US" class="bg-[rgba(31,31,31)]">
+                    English (US)
+                  </option>
+                  <option value="en-GB" class="bg-[rgba(31,31,31)]">
+                    English (UK)
+                  </option>
+                  <option value="en-AU" class="bg-[rgba(31,31,31)]">
+                    English (Australia)
+                  </option>
+                  <option value="es-ES" class="bg-[rgba(31,31,31)]">
+                    Spanish (Spain)
+                  </option>
+                  <option value="es-MX" class="bg-[rgba(31,31,31)]">
+                    Spanish (Mexico)
+                  </option>
+                  <option value="fr-FR" class="bg-[rgba(31,31,31)]">
+                    French
+                  </option>
+                  <option value="de-DE" class="bg-[rgba(31,31,31)]">
+                    German
+                  </option>
+                  <option value="it-IT" class="bg-[rgba(31,31,31)]">
+                    Italian
+                  </option>
+                  <option value="pt-BR" class="bg-[rgba(31,31,31)]">
+                    Portuguese (Brazil)
+                  </option>
+                  <option value="pt-PT" class="bg-[rgba(31,31,31)]">
+                    Portuguese (Portugal)
+                  </option>
+                  <option value="ja-JP" class="bg-[rgba(31,31,31)]">
+                    Japanese
+                  </option>
+                  <option value="ko-KR" class="bg-[rgba(31,31,31)]">
+                    Korean
+                  </option>
+                  <option value="zh-CN" class="bg-[rgba(31,31,31)]">
+                    Chinese (Simplified)
+                  </option>
+                  <option value="zh-TW" class="bg-[rgba(31,31,31)]">
+                    Chinese (Traditional)
+                  </option>
+                  <option value="hi-IN" class="bg-[rgba(31,31,31)]">
+                    Hindi
+                  </option>
+                  <option value="ar-SA" class="bg-[rgba(31,31,31)]">
+                    Arabic
+                  </option>
+                  <option value="ru-RU" class="bg-[rgba(31,31,31)]">
+                    Russian
+                  </option>
+                  <option value="nl-NL" class="bg-[rgba(31,31,31)]">
+                    Dutch
+                  </option>
+                  <option value="pl-PL" class="bg-[rgba(31,31,31)]">
+                    Polish
+                  </option>
+                  <option value="tr-TR" class="bg-[rgba(31,31,31)]">
+                    Turkish
+                  </option>
+                  <option value="th-TH" class="bg-[rgba(31,31,31)]">
+                    Thai
+                  </option>
+                  <option value="vi-VN" class="bg-[rgba(31,31,31)]">
+                    Vietnamese
+                  </option>
+                  <option value="id-ID" class="bg-[rgba(31,31,31)]">
+                    Indonesian
+                  </option>
+                  <option value="ms-MY" class="bg-[rgba(31,31,31)]">
+                    Malay
+                  </option>
+                  <option value="fil-PH" class="bg-[rgba(31,31,31)]">
+                    Filipino
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Personal Details Section -->
+          <div class="mb-8">
+            <h3 class="text-xl font-semibold mb-6 text-[#A1A1A1]">
+              Personal Details
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div class="flex flex-col">
+                <label class="text-sm font-medium mb-2 text-[#A1A1A1]"
+                  >Age</label
+                >
+                <input
+                  type="number"
+                  name="Age"
+                  placeholder="Age"
+                  class="p-3 bg-[rgba(31,31,31)] border-2 border-[rgba(76,76,76)] rounded-xl focus:outline-none focus:border-[#68B2D9] transition-colors duration-200"
+                />
+              </div>
+              <div class="flex flex-col">
+                <label class="text-sm font-medium mb-2 text-[#A1A1A1]"
+                  >Gender</label
+                >
+                <select
+                  name="Gender"
+                  class="p-3 bg-[rgba(31,31,31)] border-2 border-[rgba(76,76,76)] rounded-xl focus:outline-none focus:border-[#68B2D9] transition-colors duration-200"
+                >
+                  <option value="" class="bg-[rgba(31,31,31)]">
+                    Select gender
+                  </option>
+                  <option value="Male" class="bg-[rgba(31,31,31)]">Male</option>
+                  <option value="Female" class="bg-[rgba(31,31,31)]">
+                    Female
+                  </option>
+                  <option value="Other" class="bg-[rgba(31,31,31)]">
+                    Other
+                  </option>
+                </select>
+              </div>
+              <div class="flex flex-col">
+                <label class="text-sm font-medium mb-2 text-[#A1A1A1]"
+                  >Date of Birth</label
+                >
+                <input
+                  type="date"
+                  name="DOB"
+                  class="p-3 bg-[rgba(31,31,31)] border-2 border-[rgba(76,76,76)] rounded-xl focus:outline-none focus:border-[#68B2D9] transition-colors duration-200"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact Information Section -->
+          <div class="mb-8">
+            <h3 class="text-xl font-semibold mb-6 text-[#A1A1A1]">
+              Contact Information
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="flex flex-col">
+                <label class="text-sm font-medium mb-2 text-[#A1A1A1]"
+                  >Contact Number</label
+                >
+                <input
+                  type="tel"
+                  name="ContactNumber"
+                  placeholder="Enter your contact number"
+                  class="p-3 bg-[rgba(31,31,31)] border-2 border-[rgba(76,76,76)] rounded-xl focus:outline-none focus:border-[#68B2D9] transition-colors duration-200"
+                />
+              </div>
+              <div class="flex flex-col">
+                <label class="text-sm font-medium mb-2 text-[#A1A1A1]"
+                  >Address</label
+                >
+                <input
+                  type="text"
+                  name="Address"
+                  placeholder="Enter your address"
+                  class="p-3 bg-[rgba(31,31,31)] border-2 border-[rgba(76,76,76)] rounded-xl focus:outline-none focus:border-[#68B2D9] transition-colors duration-200"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="flex justify-end pt-6">
+            <button
+              type="submit"
+              class="w-full px-8 py-3 bg-[#68B2D9] text-white rounded-xl hover:bg-[#5091B3] transition-colors duration-200 font-semibold"
+            >
+              Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script src="../static/js/pc/adjustgif.js"></script>
+    <script src="../static/js/pc/miceui.js"></script>
+    <script src="../static/js/pc/pcmessages.js"></script>
+    <script src="../static/js/pc/cam.js"></script>
+    <script src="../static/js/pc/pcmain.js"></script>
+    <script>
+      USERNAME = "{{ FullName }}";
+      HISTORY = {{ history|tojson }};
+
+      for (const message of HISTORY) {
+          addMessage(message.content, message.role === "assistant");
+      }
+    </script>
+    <script>
+      const fileInput = document.getElementById('fileInput');
+      const fileList = document.getElementById('fileList');
+      const clearFiles = document.getElementById('clearFiles');
+      const totalSizeDisplay = document.getElementById('totalSize');
+      const uploadedFiles = new Set();
+      const fileUrls = new Map(); // Store file URLs and MIME types
+      const MAX_TOTAL_SIZE = 25 * 1024 * 1024; // 25MB in bytes
+      let currentTotalSize = 0;
+
+      // Define allowed MIME types
+      const ALLOWED_MIME_TYPES = {
+        // Text files
+        'text/plain': '📄',
+        'text/csv': '📄',
+        'text/html': '📄',
+
+        // PDF
+        'application/pdf': '📑',
+
+        // Documents
+        'application/msword': '📄',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+          '📄',
+        'application/vnd.ms-excel': '📄',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+          '📄',
+
+        // Audio
+        'audio/mpeg': '🎵',
+        'audio/wav': '🎵',
+        'audio/ogg': '🎵',
+        'audio/mp4': '🎵',
+        'audio/webm': '🎵',
+
+        // Video
+        'video/mp4': '🎥',
+        'video/webm': '🎥',
+        'video/ogg': '🎥',
+        'video/quicktime': '🎥',
+
+        // Images
+        'image/jpeg': '🖼️',
+        'image/png': '🖼️',
+        'image/gif': '🖼️',
+        'image/webp': '🖼️',
+      };
+
+      fileInput.addEventListener('change', handleFileSelect);
+      clearFiles.addEventListener('click', clearFileList);
+
+      function formatSize(bytes) {
+        return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+      }
+
+      function updateTotalSize() {
+        totalSizeDisplay.textContent = `${formatSize(
+          currentTotalSize,
+        )} / 25 MB`;
+      }
+
+      function isValidMimeType(mimeType) {
+        return ALLOWED_MIME_TYPES.hasOwnProperty(mimeType);
+      }
+
+      function getFileIcon(mimeType) {
+        return ALLOWED_MIME_TYPES[mimeType] || '📎';
+      }
+
+      async function uploadFile(file) {
+        // Check MIME type before uploading
+        if (!isValidMimeType(file.type)) {
+          throw new Error(`Unsupported file type: ${file.type}`);
+        }
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+          const response = await fetch('/upload', {
+            method: 'POST',
+            body: formData,
+          });
+
+          if (!response.ok) {
+            throw new Error('Upload failed');
+          }
+
+          const data = await response.json();
+          return {
+            url: data.url,
+            mime_type: file.type,
+          };
+        } catch (error) {
+          console.error('Error uploading file:', error);
+          throw error;
+        }
+      }
+
+      function showUploadModal() {
+        console.log('showUploadModal');
+        document.getElementById('myModal').classList.remove('hidden');
+      }
+
+      function closeUploadModal() {
+        document.getElementById('myModal').classList.add('hidden');
+      }
+
+      async function handleFileSelect(event) {
+        const files = event.target.files;
+
+        for (const file of files) {
+          if (uploadedFiles.has(file.name)) continue;
+
+          // Check if adding this file would exceed the size limit
+          if (currentTotalSize + file.size > MAX_TOTAL_SIZE) {
+            alert('Total file size cannot exceed 25MB');
+            continue;
+          }
+
+          // Check MIME type
+          if (!isValidMimeType(file.type)) {
+            alert(`File type not supported: ${file.type}`);
+            continue;
+          }
+
+          try {
+            // Show loading state
+            const fileElement = document.createElement('div');
+            fileElement.className =
+              'flex items-center justify-between p-2 bg-[rgba(31,31,31)] rounded-lg';
+            const truncatedName = truncateFileName(file.name);
+
+            fileElement.innerHTML = `
+                        <div class="flex items-center space-x-2">
+                            <span class="text-[#68B2D9]">⏳</span>
+                            <span class="text-sm text-[#A1A1A1] truncate" title="${file.name}">${truncatedName}</span>
+                        </div>
+                        <span class="text-sm text-[#A1A1A1]">Uploading...</span>
+                    `;
+
+            fileList.appendChild(fileElement);
+
+            // Upload file
+            const fileData = await uploadFile(file);
+
+            // Update UI with success state
+            fileElement.innerHTML = `
+                        <div class="flex items-center space-x-2">
+                            <span class="text-[#68B2D9]">${getFileIcon(
+                              file.type,
+                            )}</span>
+                            <span class="text-sm text-[#A1A1A1] truncate" title="${
+                              file.name
+                            }">${truncatedName}</span>
+                        </div>
+                        <button class="delete-file text-red-500 hover:text-red-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    `;
+
+            uploadedFiles.add(file.name);
+            fileUrls.set(file.name, fileData); // Store both URL and MIME type
+            currentTotalSize += file.size;
+            updateTotalSize();
+
+            // Add delete handler
+            fileElement
+              .querySelector('.delete-file')
+              .addEventListener('click', () => {
+                fileElement.remove();
+                uploadedFiles.delete(file.name);
+                fileUrls.delete(file.name);
+                currentTotalSize -= file.size;
+                updateTotalSize();
+              });
+          } catch (error) {
+            alert(`Failed to upload ${file.name}: ${error.message}`);
+          }
+        }
+      }
+
+      function clearFileList() {
+        fileList.innerHTML = '';
+        uploadedFiles.clear();
+        fileUrls.clear();
+        fileInput.value = '';
+        currentTotalSize = 0;
+        updateTotalSize();
+      }
+
+      // Modify QuerySendMain to include file URLs and MIME types
+      // const originalQuerySendMain = window.QuerySendMain;
+      // window.QuerySendMain = function(query) {
+      //     const files = Array.from(fileUrls.values()).map(fileData => ({
+      //         url: fileData.url,
+      //         mime_type: fileData.mime_type
+      //     }));
+      //
+      //     if (files.length > 0) {
+      //         const queryWithFiles = {
+      //             text: query,
+      //             files: files
+      //         };
+      //         clearFileList();
+      //         return originalQuerySendMain(queryWithFiles);
+      //     }
+      //     return originalQuerySendMain(query);
+      // };
+
+      function truncateFileName(fileName, maxLength = 65) {
+        if (fileName.length <= maxLength) return fileName;
+
+        const extension = fileName.split('.').pop();
+        const nameWithoutExt = fileName.slice(0, fileName.lastIndexOf('.'));
+
+        const truncatedLength = maxLength - extension.length - 4;
+        return `${nameWithoutExt.slice(0, truncatedLength)}...${extension}`;
+      }
+    </script>
+  </body>
+</html>
+
+<script>
+  // Check if browser supports speech recognition
+  const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+  const recognition = new SpeechRecognition();
+  const listeningIndicator = document.querySelector('#right-panel h3');
+  const maxInactiveTime = 20000;
+  let lastInactiveTime = 0;
+
+  function triggerUserIfInactive() {
+    if (
+      Date.now() - lastInactiveTime > maxInactiveTime &&
+      micBtn.classList.contains('active') &&
+      lastInactiveTime != 0
+    ) {
+      console.log('User is inactive');
+      QuerySendMain('[User is inactive]');
+      lastInactiveTime = 0;
+    }
+  }
+
+  if (SpeechRecognition) {
+    console.log('Speech Recognition is supported in this browser.');
+
+    // Create a new instance of speech recognition
+
+    // Configure the recognition settings
+    recognition.continuous = false; // Recognize only one phrase at a time
+    recognition.interimResults = false; // Don't show interim results
+    // Remove or comment out the language restriction to allow any language
+    // recognition.lang = 'en-US';
+
+    // Grab elements
+    const micBtn = document.getElementById('micBtn');
+    const micIcon = document.getElementById('micIcon');
+    const userInput = document.getElementById('user-input');
+
+    // Variable to toggle recognition
+    let isListening = false;
+
+    // Function to start/stop recognition
+    micBtn.addEventListener('click', () => {
+      if (!isListening) {
+        if (micIcon.style.display === 'none') {
+          return;
+        }
+        recognition.start();
+        listeningIndicator.textContent = 'Listening ...';
+        lastInactiveTime = Date.now();
+      } else {
+        recognition.stop();
+        listeningIndicator.textContent = 'Stopped listening';
+      }
+      isListening = !isListening;
+    });
+
+    // Handle recognition results
+    recognition.addEventListener('result', (event) => {
+      const transcript = event.results[0][0].transcript;
+      // userInput.value = transcript; // Insert recognized text into input field
+      listeningIndicator.textContent = 'Recognition finished';
+      console.log('Recognized text:', transcript);
+      QuerySendMain(transcript);
+      lastInactiveTime = Date.now();
+    });
+
+    // Handle recognition errors
+    recognition.addEventListener('error', (event) => {
+      console.error('Speech recognition error:', event.error);
+      triggerUserIfInactive();
+    });
+
+    // Handle recognition end
+    recognition.addEventListener('end', () => {
+      if (isListening && micIcon.style.display !== 'none') {
+        listeningIndicator.textContent = 'Listening ...';
+        recognition.start(); // Restart recognition if still listening
+        triggerUserIfInactive();
+      }
+    });
+  } else {
+    console.error('Speech Recognition is not supported in this browser.');
+    const listeningIndicator = document.querySelector('#right-panel h3');
+    listeningIndicator.textContent =
+      'Speech recognition not supported in this browser.';
+  }
+</script>
+
+<script>
+  // Function to get the current day and time in a readable format
+  function updateDateTime() {
+    if (micBtn.classList.contains('active')) {
+      return;
+    }
+    const dateTimeElement = document.querySelector('#right-panel h3');
+    const currentDate = new Date();
+
+    // Format the time
+    const timeOptions = {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true,
+    };
+    const formattedTime = currentDate.toLocaleTimeString('en-US', timeOptions);
+
+    // Get the day of the week
+    const dayOptions = { weekday: 'long' };
+    const dayName = currentDate.toLocaleDateString('en-US', dayOptions);
+
+    // Combine day and time
+    dateTimeElement.textContent = `${dayName}, ${formattedTime}`;
+  }
+
+  // Call the function when the page loads
+  window.onload = updateDateTime;
+
+  // Optional: Keep updating the time every second
+  setInterval(updateDateTime, 1000);
+</script>
+
+<style>
+  #chat-content {
+    word-wrap: break-word; /* Allows long words to break and wrap */
+    overflow-wrap: break-word; /* Similar to word-wrap, for better compatibility */
+  }
+</style>
+
+<script>
+  const home = document.getElementById('home');
+  const settings = document.getElementById('settings');
+  const settingsIcon = document.getElementById('settings-icon');
+  const settingsForm = document.getElementById('settings-form');
+
+  settingsForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // Get and disable the submit button
+    const submitBtn = settingsForm.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Saving...';
+
+    const formData = new FormData(settingsForm);
+    try {
+      const response = await fetch('/happy', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        // Reload the page after successful submission
+        window.location.reload();
+      } else {
+        console.error('Failed to save settings');
+        // Re-enable the button if there's an error
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Save Changes';
+      }
+    } catch (error) {
+      console.error('Error saving settings:', error);
+      // Re-enable the button if there's an error
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Save Changes';
+    }
+  });
+
+  settingsIcon.addEventListener('click', () => {
+    settings.classList.remove('hidden');
+    settings.classList.add('flex');
+    home.style.display = 'none';
+  });
+
+  const homeIcon = document.getElementById('home-icon');
+  homeIcon.addEventListener('click', () => {
+    settings.classList.add('hidden');
+    settings.classList.remove('flex');
+    home.style.display = 'block';
+  });
+</script>

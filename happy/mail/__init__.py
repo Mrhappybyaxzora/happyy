@@ -1,0 +1,1 @@
+from happy.mail.resetmail import resetpassword

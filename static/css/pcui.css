@@ -1,0 +1,30 @@
+body {
+    font-family: 'Poppins', sans-serif;
+  }
+
+.video-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.video-container video {
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+}
+
+/* For WebKit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+    display: none;
+    /* Hides the scrollbar */
+}
+
+/* For Firefox */
+* {
+    scrollbar-width: none;
+    /* Hides the scrollbar */
+    -ms-overflow-style: none;
+    /* Hides the scrollbar in IE and Edge */
+}

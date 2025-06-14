@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. Happy - Your AI Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#10b981',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Hide scrollbars for all elements */
+        * {
+            scrollbar-width: none; /* For Firefox */
+            -ms-overflow-style: none; /* For Internet Explorer and Edge */
+        }
+        
+        *::-webkit-scrollbar {
+            display: none; /* For Chrome, Safari, and Opera */
+        }
+
+        /* Add a background image to the hero section */
+        .hero-section {
+            background-image: url('path/to/your/image.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Improve button styles */
+        .btn-primary {
+            background-color: #3b82f6;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+
+        /* Enhance typography */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        h1, h2, h3 {
+            font-weight: 700;
+        }
+
+        /* Add hover effects */
+        a:hover {
+            color: #10b981;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex flex-col">
+    <nav class="bg-gray-800 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/" class="flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary-500">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                            <line x1="9" y1="9" x2="9.01" y2="9"/>
+                            <line x1="15" y1="9" x2="15.01" y2="9"/>
+                        </svg>
+                    </a>
+                    <div class="ml-4 flex items-baseline space-x-4">
+                        <a href="/" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="#about" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">About</a>
+                        <a href="#contact" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Contact</a>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <a href="/login" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Login</a>
+                    <a href="/register" class="ml-4 text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Register</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- <header class="px-4 lg:px-6 h-14 flex items-center">
+        <a href="#" class="flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary h-6 w-6">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                <line x1="9" y1="9" x2="9.01" y2="9"/>
+                <line x1="15" y1="9" x2="15.01" y2="9"/>
+            </svg>
+            <span class="ml-2 text-2xl font-bold text-primary">Mr. Happy</span>
+        </a>
+        <nav class="ml-auto flex gap-4 sm:gap-6">
+            <a href="#features" class="text-sm font-medium hover:text-primary">Features</a>
+            <a href="#how-it-works" class="text-sm font-medium hover:text-primary">How It Works</a>
+            <a href="#pricing" class="text-sm font-medium hover:text-primary">Pricing</a>
+            <a href="#contact" class="text-sm font-medium hover:text-primary">Contact</a>
+        </nav>
+    </header> -->
+
+    <main class="flex-grow hero-section">
+        <section class="w-full py-12 md:py-24 lg:py-32 xl:py-48">
+            <div class="container px-4 md:px-6 mx-auto">
+                <div class="flex flex-col items-center space-y-4 text-center">
+                    <div class="space-y-2">
+                        <h1 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
+                            Meet Mr. Happy, Your AI Assistant
+                        </h1>
+                        <p class="mx-auto max-w-[700px] text-gray-400 md:text-xl">
+                            Powered by Axora, Mr. Happy is here to make your day brighter and your tasks easier.
+                        </p>
+                    </div>
+                    <div class="space-x-4">
+                        <a href="/login" class="inline-flex h-9 items-center justify-center rounded-md btn-primary px-4 py-2 text-sm font-medium text-white shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary">
+                            Get Started
+                        </a>
+                        <a href="#" class="inline-flex h-9 items-center justify-center rounded-md border border-gray-700 bg-gray-800 px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-gray-700 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-700">
+                            Learn More
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="w-full py-12 md:py-24 lg:py-32 bg-gray-800">
+            <div class="container px-4 md:px-6 mx-auto">
+                <h2 class="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">Features</h2>
+                <div class="grid gap-10 sm:grid-cols-2 md:grid-cols-3">
+                    <div class="flex flex-col items-center text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-12 w-12 text-primary mb-4">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                        <h3 class="text-xl font-bold mb-2">Natural Conversations</h3>
+                        <p class="text-gray-400">Engage in human-like dialogues with advanced language understanding.</p>
+                    </div>
+                    <div class="flex flex-col items-center text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-12 w-12 text-primary mb-4">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                        </svg>
+                        <h3 class="text-xl font-bold mb-2">Lightning Fast</h3>
+                        <p class="text-gray-400">Get instant responses and complete tasks in record time.</p>
+                    </div>
+                    <div class="flex flex-col items-center text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-12 w-12 text-primary mb-4">
+                            <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/>
+                        </svg>
+                        <h3 class="text-xl font-bold mb-2">Continuous Learning</h3>
+                        <p class="text-gray-400">Mr. Happy evolves and improves with every interaction.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="how-it-works" class="w-full py-12 md:py-24 lg:py-32">
+            <div class="container px-4 md:px-6 mx-auto">
+                <h2 class="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">How It Works</h2>
+                <div class="grid gap-6 lg:grid-cols-3">
+                    <div class="rounded-lg border border-gray-700 bg-gray-800 p-6">
+                        <h3 class="text-2xl font-bold mb-2">1. Sign Up</h3>
+                        <p class="text-gray-400">Create your account and set up your preferences.</p>
+                    </div>
+                    <div class="rounded-lg border border-gray-700 bg-gray-800 p-6">
+                        <h3 class="text-2xl font-bold mb-2">2. Start Chatting</h3>
+                        <p class="text-gray-400">Begin your conversation with Mr. Happy about any topic.</p>
+                    </div>
+                    <div class="rounded-lg border border-gray-700 bg-gray-800 p-6">
+                        <h3 class="text-2xl font-bold mb-2">3. Enjoy the Magic</h3>
+                        <p class="text-gray-400">Experience the power of AI as Mr. Happy assists you.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="pricing" class="w-full py-12 md:py-24 lg:py-32 bg-gray-800">
+            <div class="container px-4 md:px-6 mx-auto">
+                <h2 class="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">Pricing Plans</h2>
+                <div class="grid gap-6 lg:grid-cols-3">
+                    <div class="rounded-lg border border-gray-700 bg-gray-900 p-6">
+                        <h3 class="text-2xl font-bold mb-2">Basic</h3>
+                        <p class="text-3xl font-bold mb-4">$9.99<span class="text-lg font-normal">/month</span></p>
+                        <ul class="mb-6 space-y-2">
+                            <li class="flex items-center">
+                                <svg class="w-4 h-4 mr-2 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                100 conversations/month
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-4 h-4 mr-2 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                Basic AI capabilities
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-4 h-4 mr-2 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                Email support
+                            </li>
+                        </ul>
+                        <a href="#" class="inline-flex w-full items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary">
+                            Choose Plan
+                        </a>
+                    </div>
+                    <div class="rounded-lg border border-primary bg-gray-900 p-6">
+                        <h3 class="text-2xl font-bold mb-2">Pro</h3>
+                        <p class="text-3xl font-bold mb-4">$19.99<span class="text-lg font-normal">/month</span></p>
+                        <ul class="mb-6 space-y-2">
+                            <li class="flex items-center">
+                                <svg class="w-4 h-4 mr-2 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                Unlimited conversations
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-4 h-4 mr-2 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                Advanced AI capabilities
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-4 h-4 mr-2 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                Priority support
+                            </li>
+                        </ul>
+                        <a href="#" class="inline-flex w-full items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary">
+                            Choose Plan
+                        </a>
+                    </div>
+                    <div class="rounded-lg border border-gray-700 bg-gray-900 p-6">
+                        <h3 class="text-2xl font-bold mb-2">Enterprise</h3>
+                        <p class="text-3xl font-bold mb-4">Custom</p>
+                        <ul class="mb-6 space-y-2">
+                            <li class="flex items-center">
+                                <svg class="w-4 h-4 mr-2 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                Custom AI solutions
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-4 h-4 mr-2 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                Dedicated account manager
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-4 h-4 mr-2 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                24/7 premium support
+                            </li>
+                        </ul>
+                        <a href="#" class="inline-flex w-full items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary">
+                            Contact Sales
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="w-full py-12 md:py-24 lg:py-32">
+            <div class="container px-4 md:px-6 mx-auto">
+                <h2 class="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">Get in Touch</h2>
+                <div class="max-w-md mx-auto">
+                    <form class="space-y-4">
+                        <div>
+                            <label for="name" class="block text-sm font-medium mb-2">Name</label>
+                            <input type="text" id="name" name="name" class="w-full px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-white" required>
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium mb-2">Email</label>
+                            <input type="email" id="email" name="email" class="w-full px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-white" required>
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm font-medium mb-2">Message</label>
+                            <textarea id="message" name="message" rows="4" class="w-full px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-white" required></textarea>
+                        </div>
+                        <button type="submit" class="w-full inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="w-full py-6 bg-gray-800">
+        <div class="container px-4 md:px-6 mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                <div class="flex items-center space-x-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                        <line x1="9" y1="9" x2="9.01" y2="9"/>
+                        <line x1="15" y1="9" x2="15.01" y2="9"/>
+                    </svg>
+                    <span class="text-xl font-bold">Mr. Happy</span>
+                </div>
+                <nav class="flex space-x-4">
+                    <a href="#" class="text-sm hover:text-primary">Privacy Policy</a>
+                    <a href="#" class="text-sm hover:text-primary">Terms of Service</a>
+                    <a href="#" class="text-sm hover:text-primary">Contact</a>
+                </nav>
+                <div class="text-sm text-gray-400">© 2023 Mr. Happy. All rights reserved.</div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
